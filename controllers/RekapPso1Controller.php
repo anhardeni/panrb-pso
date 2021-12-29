@@ -44,6 +44,17 @@ class RekapPso1Controller extends Controller
         ]);
     }
 
+    public function actionIndex2()
+    {
+        $searchModel = new RekapPso1Search();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index2', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single RekapPso1 model.
      * @param integer $id

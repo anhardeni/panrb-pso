@@ -41,7 +41,10 @@
                'icon' => 'plus-circle',
                'url' => '#',
                'items' => [
-               ['label' => 'rekapitulasi', 'icon' => 'truck', 'url' => ['/rekap-pso1/index'], 'visible' => !Yii::$app->user->isGuest],
+               ['label' => 'rekap type 1', 'icon' => 'truck', 'url' => ['/rekap-pso1/index'], 'visible' => !Yii::$app->user->isGuest],
+
+               ['label' => 'rekap type 2', 'icon' => 'truck', 'url' => ['/rekap-pso1/index2'], 'visible' => !Yii::$app->user->isGuest],
+     
      
 
                ],

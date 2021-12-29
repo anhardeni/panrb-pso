@@ -110,16 +110,10 @@ $chart5 = $dataDB->createCommand($sql_chart5)->queryAll();
 
 //6
 
-$sql_chart6 = "SELECT DISTINCT
-jenis_lembaga 
-FROM
-    rekap_pso2
-    
-    ORDER BY
-    jenis_lembaga
+$sql_chart6 = "SELECT DISTINCT(rekap_pso1.jenis_lembaga) AS cc_hn FROM rekap_pso1 WHERE asn = 'Pusat' ORDER BY rekap_pso1.jenis_lembaga ASC
 ";
 $chart6 = $dataDB->createCommand($sql_chart6)->queryColumn();
-//var_dump($chart6); die();
+
 
 $sql_chart7 = "SELECT analisa FROM rekap_pso1 GROUP BY rekap_pso1.analisa ASC";
 //
@@ -130,38 +124,43 @@ $sql_chart10 = "SELECT DISTINCT(rekap_pso1.jenis_lembaga) AS cc_hn FROM rekap_ps
 $chart10 = $dataDB->createCommand($sql_chart10)->queryColumn();
 
 
-$frameworks = $dataDB->createCommand('SELECT id,analisa
-    from pso_analisa  ORDER BY id ASC') -> queryAll();
+$frameworks = $dataDB->createCommand('SELECT jenis_lembaga
+    from rekap_pso2  ORDER BY jenis_lembaga ASC') -> queryAll();
 
- $series = [];
+$series = [];
 foreach ($frameworks as $framework) {
     $results = $dataDB->createCommand('
-SELECT
--- count(pso_master.flag1_analisa_usulan)
-COUNT(flag1_analisa_usulan)
+SELECT 
+COUNT(flag1_analisa_usulan) as total_aju
 FROM
-    
     rekap_pso2
-    WHERE 
-    -- pso_master.flag1_analisa_usulan = '.$framework['id'].'
-    flag1_analisa_usulan = '.$framework['id'].'
-
-    GROUP BY
-    jenis_lembaga ASC,
-    flag1_analisa_usulan
-     
+WHERE flag1_analisa_usulan ='.$framework['id'].'
+GROUP BY
+ jenis_lembaga,
+ flag1_analisa_usulan
         ')->queryColumn();
     $data = array_map('intval', $results);
-   //var_dump($results);die();
-   // var_dump($data);die();
     $series[] = [
-        'name' => $framework['analisa'],
+        'jenis_lembaga' => $frameworks['jenis_lembaga'],
         'data' => $data,
     ];
 
 }
 
-     //  var_dump($series); die();
+print_r($series);
+
+
+
+
+// $sqlChart8 = "SELECT total from chart8 WHERE flag1_analis_usulan = ".$key['id']." ORDER BY jenis_lembaga ASC";
+
+   //$sqlChart8i = Yii::$app->db->createCommand($sqlChart8)->queryColumn();
+
+// foreach ($frameworks as $key)  {
+
+
+
+      // var_dump($series); die();
 
 return $this->render('index', compact( 
  'chart1',

@@ -1,4 +1,5 @@
-var gaugeOptions = {
+Highcharts.chart('container', {
+    
     chart: {
         type: 'gauge',
         plotBackgroundColor: null,
@@ -91,30 +92,48 @@ var gaugeOptions = {
 };
 
 // The speed gauge
-function gen_donut(obj, title_text, value) {
-    obj.highcharts(Highcharts.merge(gaugeOptions, {
-        yAxis: {
-            min: 0,
-            max: 100,
-            title: {
-                text: '<b>' + title_text + '</b>'
-            }
-        },
-        credits: {
-            enabled: false
-        },
-        series: [{
-                // name: 'Speed',
-                data: [value],
-                dataLabels: {
-                    format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-                            '<span style="font-size:12px;color:silver">Number </span></div>'
-                },
-                tooltip: {
-                    valueSuffix: ' percent'
-                }
-            }]
+// function gen_donut(obj, title_text, value) {
+//     obj.highcharts(Highcharts.merge(gaugeOptions, {
+//         yAxis: {
+//             min: 0,
+//             max: 100,
+//             title: {
+//                 text: '<b>' + title_text + '</b>'
+//             }
+//         },
+//         credits: {
+//             enabled: false
+//         },
+//         series: [{
+//                 // name: 'Speed',
+//                 data: [value],
+//                 dataLabels: {
+//                     format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+//                             ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+//                             '<span style="font-size:12px;color:silver">Number </span></div>'
+//                 },
+//                 tooltip: {
+//                     valueSuffix: ' percent'
+//                 }
+//             }]
 
-    }));
-}
+//     }));
+// }
+
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.round((Math.random() - 0.5) * 20);
+
+            newVal = point.y + inc;
+            if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+            }
+
+            point.update(newVal);
+
+        }, 3000);
+    }
+});

@@ -26,6 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
         <?php } ?>    </p>
 
+        <p> <?php if ((Mimin::checkRoute($this->context->id."/downloaddatasrt"))){ ?>        <?= Html::a('Download data surat', ['downloaddatasrt', 'id' => $model->id], [
+            'class' => 'btn btn-warning',
+            'data' => [
+                'confirm' => 'Apakah Anda yakin ingin download  surat ini??',
+                'method' => 'post',
+            ],
+        ]) ?>
+        <?php } ?>   </p>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
